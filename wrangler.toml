@@ -1,0 +1,22 @@
+name = "outlook-email"
+main = "src/index.ts"
+compatibility_date = "2026-06-01"
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+
+# ── D1 故意不在这里声明 ────────────────────────────────────────────────
+# 首次部署时还没有数据库，站点会提示「数据库未就绪」，这是预期行为。
+# 正确的顺序是：先部署 → 在控制台手动创建 D1 → 执行 migrations 里的 SQL
+# → 在 Worker 的 Settings → Bindings 里绑定 D1（变量名必须叫 DB）→ 重新部署。
+#
+# 如果你更喜欢用 wrangler 管理绑定（本地 CLI 部署），把下面四行取消注释并填自己的 ID：
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "outlook-email-db"
+# database_id = "REPLACE_WITH_YOUR_DATABASE_ID"
+# migrations_dir = "migrations"
+
+[triggers]
+crons = ["0 */6 * * *"]
